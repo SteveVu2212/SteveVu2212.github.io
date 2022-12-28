@@ -1,0 +1,35 @@
+body { 
+    font: 12px Arial;
+    text-align: center;
+    /* position: relative; */
+}
+
+
+.userSelection {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.container0 span {
+    border-bottom: 2px solid #000;
+}
+
+.container0 {
+    font-size: 20px;
+
+}
+
+.container1 {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+.container2{
+    text-align: center;
+}
+  
+/* #wrapper-cummulativeReturn,
+#wrapper-excessReturn {
+    width: 50%;
+    height: 300px;
+  } */
