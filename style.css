@@ -1,0 +1,151 @@
+/* body { 
+    font: 12px Arial;
+    text-align: center;
+    position: relative;
+} */
+
+html {
+    font-size: 62.5%;
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
+
+*, ::after, ::before {
+box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background-color: #faffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    font-weight: 400;
+    color: #101b1b;
+}
+
+.dropdown {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-evenly;
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 30px;
+    padding-left: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.col {
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+.col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+input {
+    width: 100%;
+  }
+
+/* Type */
+
+h1, h2, h3, h4 {
+    font-weight: 500;
+  }
+
+h1 {
+    margin: 6rem 0 2rem;
+    font-size: 4rem;
+}
+
+h2 {
+    margin: 5rem 0 2rem;
+    font-size: 2.0rem;
+    line-height: 1.2;
+}
+
+h3 {
+    margin: 3rem 0 1rem;
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+/* Sentence */
+
+.responsive-sentence {
+    max-width: 1200px;
+    position: relative;
+    margin: 15px auto 15px auto;
+    text-align: center;
+}
+
+
+.responsive-svg-container {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.avgExcessReturn {
+    margin-right: 0;
+}
+
+/* Input box */
+input {
+    /* border: 2px solid blue; */
+    background-color: lightblue;
+    font-size: 18px;
+    font-weight: 900;
+    color: #101b1b;
+    width: 250px;
+    height: 40px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+input:hover {
+    border: 2px solid orange;
+    background-color: orange;
+}
+
+input::placeholder {
+    /* font-size: 15px; */
+    /* color: black */
+}
+
+/* Span */
+span {
+    font-size: 18px;
+    font-weight: 900;
+    box-shadow: inset 0 -5px 0 0 rgba(48, 82, 82, 0.3);
+    transition: box-shadow 0.2s ease-out;
+}
+
+span:hover, a:focus {
+    box-shadow: inset 0 -18px 0 0 rgba(48, 82, 82, 0.3);
+    transition-timing-function: ease-in;
+  }

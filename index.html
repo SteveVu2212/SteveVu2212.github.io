@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="main.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Pension benchmarking</title>
+  </head>
+  <body>
+    <div id="userSelection" class="dropdown">
+      <div id="planDropdown" class="planDropdown">
+        <!-- <h2>Select a plan</h2> -->
+        <input list="pensionPlans" id="planSelection" name="myPlan" placeholder="Select a plan" />
+        <datalist id="pensionPlans"></datalist>
+      </div>
+      <div id="benchmarkDropdown" class="benchmarkDropdown">
+        <!-- <h2>Select a benchmark</h2> -->
+        <input list="pensionBenchmarks" id="benchmarkSelection" name="myBenchmark" placeholder="Select a benchmark" />
+        <datalist id="pensionBenchmarks"></datalist>
+      </div>
+      <div id="periodDropdown" class="periodDropdown">
+        <!-- <h2>Select a period</h2> -->
+        <input list="pensionPeriods" id="periodSelection" name="myPeriod" placeholder="Select a period" />
+        <datalist id="pensionPeriods"></datalist>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="wrapper-avgReturn" class="responsive-sentence">
+        In the last <span id="period"></span>, <span id="plan"></span> gained an average investment return of <span id="planReturn"></span> percent,
+        compared with <span id="benchmarkReturn"></span> percent of the benchmark
+      </div>
+  
+      <div class="row">
+        <div class="col col-6">
+          <div id="wrapper-cummulativeReturn" class="responsive-svg-container"></div>
+        </div>
+        <div class="col col-6">
+          <div id="wrapper-excessReturn" class="responsive-svg-container"></div>
+        </div>
+      </div>
+  
+      <div id="wrapper-avgExcessReturn" class="responsive-svg-container avgExcessReturn"></div>
+    </div>
+
+
+  </body>
+</html>
