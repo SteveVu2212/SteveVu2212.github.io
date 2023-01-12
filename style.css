@@ -26,9 +26,13 @@ body {
   padding-bottom: 1rem;
 }
 
+.filter-option-inner-inner {
+  font-size: 1rem;
+}
+
 p {
   text-align: center;
-  font-size: inherit;
+  font-size: 1rem;
 }
 
 .wrapper-avgReturn span {
@@ -47,4 +51,10 @@ p {
 .row {
   display: flex;
   flex-wrap: wrap;
+}
+
+h2 {
+  font-size: 1rem;
+  margin-bottom: -2%;
+  text-align: center;
 }
