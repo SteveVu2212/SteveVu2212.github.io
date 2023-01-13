@@ -69,8 +69,8 @@ function drawExcessReturn_(
   const xTickValues = d3.range(d3.min(data, x), d3.max(data, x) + 1, 1);
 
   //   const yTickValues = d3.range(d3.min(data, y), d3.max(data, y), 0.2);
-//   const yTickValues = d3.range(-1, 1, 0.1);
-//   console.log(yTickValues);
+  //   const yTickValues = d3.range(-1, 1, 0.1);
+  //   console.log(yTickValues);
 
   const xAxis = d3
     .axisBottom(xScale)
@@ -97,7 +97,7 @@ function drawExcessReturn_(
     .style("color", "rgb(129, 129, 129)")
     .style("font-size", "10px")
     .style("font-weight", 500)
-    .attr("stroke-opacity", 0.5)
+    .attr("stroke-opacity", 0.5);
 
   const xmRange = [
     dimensions.margin.left,

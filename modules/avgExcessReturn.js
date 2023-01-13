@@ -101,16 +101,13 @@ function drawAvgExcessReturn_(
     .tickSize(8)
     .tickPadding(5);
 
-  const xAxisEl = bound.select(".x-axis");
-  // xAxisEl.append("text")
-  //     .attr("class", "axistitle")
-  //     .attr("x", dimensions.width / 2)
-  //     .attr("y", dimensions.margin.bottom - 10)
-  //     .style("text-anchor", "middle")
-  //     .style("fill", "#2879cb")
-  //     .style("fill-opacity", 1)
-  //     .text("Average Excess Return")
-  xAxisEl.call(xAxis);
+  const xAxisEl = bound
+    .select(".x-axis")
+    .call(xAxis)
+    .style("color", "rgb(129, 129, 129)")
+    .style("font-size", "10px")
+    .style("font-weight", 500)
+    .attr("stroke-opacity", 0.5);
 
   const zeroLine = bound
     .select(".zeroLine")
@@ -121,7 +118,8 @@ function drawAvgExcessReturn_(
     .attr("y1", dimensions.height * 0.85)
     .attr("y2", dimensions.height * 0.1)
     .style("stroke", "black")
-    .style("stroke-dasharray", "2px 4px");
+    .style("stroke-dasharray", "2px 4px")
+    .attr("stroke-opacity", 0.5);
 
   legend
     .selectAll(".ind")
