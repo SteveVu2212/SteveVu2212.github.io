@@ -5,23 +5,33 @@ import { drawAvgExcessReturn_ } from "./modules/avgExcessReturn.js";
 
 async function draw() {
   // 1. Access data
-  const df_avgReturn_15Yr_253 = await d3.csv("data/avgReturn_15Yr_253.csv");
-  const df_cumReturn_15Yr_253 = await d3.csv("data/cumReturn_15Yr_253.csv");
 
-  const df_avgReturn_10Yr_253 = await d3.csv("data/avgReturn_10Yr_253.csv");
-  const df_cumReturn_10Yr_253 = await d3.csv("data/cumReturn_10Yr_253.csv");
+  const df_avgReturn_20Yr = await d3.csv("data/20 years/avgReturn_20Yr.csv");
+  const df_cumReturn_20Yr = await d3.csv("data/20 years/cumReturn_20Yr.csv");
+
+  const df_avgReturn_15Yr = await d3.csv("data/15 years/avgReturn_15Yr.csv");
+  const df_cumReturn_15Yr = await d3.csv("data/15 years/cumReturn_15Yr.csv");
+
+  const df_avgReturn_10Yr = await d3.csv("data/10 years/avgReturn_10Yr.csv");
+  const df_cumReturn_10Yr = await d3.csv("data/10 years/cumReturn_10Yr.csv");
+
+  // console.log(df_avgReturn_10Yr);
+  // console.log(df_cumReturn_10Yr);
 
   const defaultPlan = "Alabama ERS";
-  const defaultBenchmarkType = "Optimal benchmark";
+  const defaultBenchmarkType = "Optimal portfolio";
   const defaultPeriod = "10 years";
 
   let allPlanNames = new Array();
-  df_avgReturn_15Yr_253.forEach((d) => allPlanNames.push(d.plan_name));
+  df_avgReturn_10Yr.forEach((d) => allPlanNames.push(d.plan_name));
 
-  const periodSelection = ["10 years", "15 years"];
+  const periodSelection = ["10 years", "15 years", "20 years"];
   const benchmarkTypeSelection = [
-    "Optimal benchmark",
-    "NonUSEquity(20%)-USEquity(50%)-USBond(30%)",
+    "Optimal portfolio",
+    "Standard portfolio",
+    "Moderate portfolio",
+    "Aggressive portfolio",
+    "Conservative portfolio",
   ];
   const labels = ["Cumulative actual return", "Cumulative benchmark return"];
 
@@ -126,14 +136,20 @@ async function draw() {
   let benchmarkSelected = defaultBenchmarkType;
   let periodSelected = defaultPeriod;
 
-  let df_avgReturn =
-    periodSelected == "10 years"
-      ? df_avgReturn_10Yr_253
-      : df_avgReturn_15Yr_253;
-  let df_cumReturn =
-    periodSelected == "10 years"
-      ? df_cumReturn_10Yr_253
-      : df_cumReturn_15Yr_253;
+  let df_avgReturn;
+  let df_cumReturn;
+
+  if (periodSelected == "10 years") {
+    df_avgReturn = df_avgReturn_10Yr;
+    df_cumReturn = df_cumReturn_10Yr;
+  } else if (periodSelected == "15 years") {
+    df_avgReturn = df_avgReturn_15Yr;
+    df_cumReturn = df_cumReturn_15Yr;
+  } else {
+    df_avgReturn = df_avgReturn_20Yr;
+    df_cumReturn = df_cumReturn_20Yr;
+  }
+
   // Draw the frame of the cummulative return chart
 
   const wrapper_cummulativeReturn = d3
@@ -161,7 +177,7 @@ async function draw() {
 
   bounds_cummulativeReturn.append("g").attr("class", "legend");
 
-//   bounds_cummulativeReturn.append("text").attr("class", "title");
+  //   bounds_cummulativeReturn.append("text").attr("class", "title");
 
   //   bounds_cummulativeReturn.append("g").attr("class", "tip-area")
   //         .append('svg:rect')
@@ -210,12 +226,25 @@ async function draw() {
     .style("fill", "#2879cb")
     .style("opacity", 1);
 
-//   const dot_cummulativeReturn = bounds_cummulativeReturn
-//     .append("g")
-//     .attr("class", "dot")
-//     .style("display", "none");
+  wrapper_cummulativeReturn
+    .append("line")
+    .attr("class", "tooltip-blackline")
+    .style("stroke", "black")
+    .style("opacity", 1);
 
-//   dot_cummulativeReturn.append("circle").attr("r", 2.5);
+  wrapper_cummulativeReturn
+    .append("text")
+    .attr("class", "tooltiptext-year")
+    .style("font-size", "10px")
+    .style("fill", "black")
+    .style("opacity", 1);
+
+  //   const dot_cummulativeReturn = bounds_cummulativeReturn
+  //     .append("g")
+  //     .attr("class", "dot")
+  //     .style("display", "none");
+
+  //   dot_cummulativeReturn.append("circle").attr("r", 2.5);
 
   // Add legend
   const colorScale = d3
@@ -223,9 +252,9 @@ async function draw() {
     .domain(labels)
     .range(["#f63", "#2879CB"]);
 
-//   const labelDots = bounds_cummulativeReturn
-//     .append("g")
-//     .attr("class", "labeldots");
+  //   const labelDots = bounds_cummulativeReturn
+  //     .append("g")
+  //     .attr("class", "labeldots");
 
   const legend_cummulativeReturn = bounds_cummulativeReturn.select(".legend");
 
@@ -235,7 +264,7 @@ async function draw() {
     .join("circle")
     // .attr("cx", dimensions.boundedWidth * 0.1)
     // .attr("cy", (d, i) => (dimensions.boundedHeight * (i + 1)) / 10)
-    .attr("cx", (d, i) => (dimensions.boundedWidth/2 * (i + 0.1)) - 7)
+    .attr("cx", (d, i) => (dimensions.boundedWidth / 2) * (i + 0.1) - 7)
     .attr("cy", -15)
     .attr("r", 4)
     .style("fill", (d) => colorScale(d));
@@ -246,27 +275,12 @@ async function draw() {
     .join("text")
     // .attr("x", dimensions.margin.left)
     // .attr("y", (d, i) => (dimensions.boundedHeight * (i + 1)) / 9)
-    .attr("x", (d,i) => (dimensions.boundedWidth/2 * (i + 0.1)))
+    .attr("x", (d, i) => (dimensions.boundedWidth / 2) * (i + 0.1))
     .attr("y", -10)
     .style("fill", "black")
     .text((d) => d);
 
   // Draw the frame of the average return chart
-
-  // const wrapper_avgReturn = d3.select("#wrapper-avgReturn")
-  //     .append("svg")
-  //     .attr("width", dimensions.width / 2)
-  //     .attr("height", dimensions.height)
-
-  // const bounds_avgReturn = wrapper_avgReturn.append("g")
-  //     .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
-
-  // bounds_avgReturn.append("g")
-  //     .attr("class", "circleAvgReturn")
-
-  // bounds_avgReturn.append("g")
-  //     .attr("class", "y-axis")
-  //     .style("transform", `translateX(${dimensions.width/4}px)`)
 
   // Draw the frame of the excess return chart
 
@@ -293,7 +307,6 @@ async function draw() {
 
   bounds_excessReturn.append("line").attr("class", "zeroLineExcessReturn");
 
-
   const dot_excessReturn = bounds_excessReturn
     .append("g")
     .attr("class", "dot")
@@ -303,8 +316,17 @@ async function draw() {
 
   dot_excessReturn
     .append("text")
+    .attr("class", "plan-name")
     .attr("text-anchor", "middle")
-    .attr("y", -8);
+    .attr("y", -20)
+    .style("font-size", "10px");
+
+  dot_excessReturn
+    .append("text")
+    .attr("class", "plan-excess-return")
+    .attr("text-anchor", "middle")
+    .attr("y", -5)
+    .style("font-size", "10px");
 
   // Draw the frame of the average excess return chart
 
@@ -355,7 +377,7 @@ async function draw() {
 
   bounds_avgExcessReturn.append("line").attr("class", "zeroLine");
 
-//   bounds_avgExcessReturn.append("text").attr("class", "title");
+  //   bounds_avgExcessReturn.append("text").attr("class", "title");
 
   let legend = wrapper_avgExcessReturn
     .append("g")
@@ -392,14 +414,18 @@ async function draw() {
   d3.select("#periodDropdown").on("change", function (e) {
     e.preventDefault();
     periodSelected = this.value;
-    df_avgReturn =
-      periodSelected == "10 years"
-        ? df_avgReturn_10Yr_253
-        : df_avgReturn_15Yr_253;
-    df_cumReturn =
-      periodSelected == "10 years"
-        ? df_cumReturn_10Yr_253
-        : df_cumReturn_15Yr_253;
+
+    if (periodSelected == "10 years") {
+      df_avgReturn = df_avgReturn_10Yr;
+      df_cumReturn = df_cumReturn_10Yr;
+    } else if (periodSelected == "15 years") {
+      df_avgReturn = df_avgReturn_15Yr;
+      df_cumReturn = df_cumReturn_15Yr;
+    } else {
+      df_avgReturn = df_avgReturn_20Yr;
+      df_cumReturn = df_cumReturn_20Yr;
+    }
+
     drawCumReturns_(
       df_cumReturn,
       dimensions,

@@ -12,10 +12,16 @@ function drawExcessReturn_(
   const z = (d) => d.plan_name;
 
   let y;
-  if (benchmark === "Optimal benchmark") {
+  if (benchmark === "Optimal portfolio") {
     y = (d) => parseFloat(d.cum_opt_benchmark_excess);
-  } else {
-    y = (d) => parseFloat(d.cum_custom_benchmark_excess);
+  } else if (benchmark == "Standard portfolio") {
+    y = (d) => parseFloat(d.cum_standard_pension_benchmark_excess);
+  } else if (benchmark == "Moderate portfolio") {
+    y = (d) => parseFloat(d.cum_moderate_benchmark_excess);
+  } else if (benchmark == "Aggressive portfolio") {
+    y = (d) => parseFloat(d.cum_aggressive_benchmark_excess);
+  } else if (benchmark == "Conservative portfolio") {
+    y = (d) => parseFloat(d.cum_conservative_benchmark_excess);
   }
 
   const X = d3.map(data, x);
@@ -74,7 +80,7 @@ function drawExcessReturn_(
 
   const xAxis = d3
     .axisBottom(xScale)
-    .tickValues(xTickValues)
+    // .tickValues(xTickValues)
     .tickFormat(d3.format(".0f"));
 
   bound
@@ -133,7 +139,8 @@ function drawExcessReturn_(
       .attr("transform", `translate(${xScale(X[j])}, ${yScale(Y[j])})`)
       .attr("display", null);
 
-    dot.select("text").text(Z[j]);
+    dot.select(".plan-name").text(Z[j]);
+    dot.select(".plan-excess-return").text(`${yFormat(Y[j])}`);
   };
 
   const hideTooltip = (e, datum) => {

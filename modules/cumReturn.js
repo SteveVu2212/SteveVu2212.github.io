@@ -13,17 +13,27 @@ function drawCumReturns_(
   const actualReturnAccessor = (d) => parseFloat(d.cum_return);
   const yearAccessor = (d) => parseInt(d.fy);
 
-  const xtickValues = d3.range(
-    d3.min(subDataset, yearAccessor),
-    d3.max(subDataset, yearAccessor) + 1,
-    1
-  );
+  // const xtickValues = d3.range(
+  //   d3.min(subDataset, yearAccessor),
+  //   d3.max(subDataset, yearAccessor) + 1,
+  //   1
+  // );
 
   let benchmarkReturnAccessor;
-  if (benchmark === "Optimal benchmark") {
+  if (benchmark === "Optimal portfolio") {
     benchmarkReturnAccessor = (d) => parseFloat(d.cum_opt_benchmark_return);
-  } else {
-    benchmarkReturnAccessor = (d) => parseFloat(d.cum_custom_benchmark_return);
+  } else if (benchmark == "Standard portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.cum_standard_pension_benchmark_return);
+  } else if (benchmark == "Moderate portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.cum_moderate_benchmark_return);
+  } else if (benchmark == "Aggressive portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.cum_aggressive_benchmark_return);
+  } else if (benchmark == "Conservative portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.cum_conservative_benchmark_return);
   }
 
   const yearValue = d3.map(subDataset, yearAccessor);
@@ -38,14 +48,15 @@ function drawCumReturns_(
   //     d3.min(actualReturnValue.concat(benchmarkReturnValue)),
   //     d3.max(actualReturnValue.concat(benchmarkReturnValue)),
   //   ];
-  const yDomain = [0.9, 3.3];
+  const yDomain = [0.9, 5.05];
+
   const xTickValues = d3.range(
     d3.min(subDataset, yearAccessor),
     d3.max(subDataset, yearAccessor) + 1,
     1
   );
 
-  const yTickValues = d3.range(1, 3.2, 0.4);
+  const yTickValues = d3.range(1, 5.05, 0.5);
 
   const xType = d3.scaleLinear;
   const xRange = [0, dimensions.boundedWidth];
@@ -106,7 +117,7 @@ function drawCumReturns_(
   // Draw peripherals
   const xAxis = d3
     .axisBottom(xScale)
-    .tickValues(xTickValues)
+    // .tickValues(xTickValues)
     .tickFormat(d3.format(".0f"))
     .tickSize(5);
   const yAxis = d3
@@ -151,6 +162,8 @@ function drawCumReturns_(
 
   const tooltiptext_actualReturn = d3.select(".tooltiptext-actualReturn");
   const tooltiptext_benchmarkReturn = d3.select(".tooltiptext-becnhmarkReturn");
+  const tooltip_blackline = d3.select(".tooltip-blackline");
+  const tooltiptext_year = d3.select(".tooltiptext-year");
 
   const closest = (arr, num) => {
     return (
@@ -191,7 +204,7 @@ function drawCumReturns_(
       tooltip
         .attr(
           "x",
-          xScale(closestX) < dimensions.boundedWidth / 3
+          xScale(closestX) < dimensions.boundedWidth / 2
             ? xScale(closestX) + 50
             : xScale(closestX) - 50
         )
@@ -201,7 +214,7 @@ function drawCumReturns_(
       tooltiptext_actualReturn
         .attr(
           "x",
-          xScale(closestX) < dimensions.boundedWidth / 3
+          xScale(closestX) < dimensions.boundedWidth / 2
             ? xScale(closestX) + 50
             : xScale(closestX) - 125
         )
@@ -212,13 +225,41 @@ function drawCumReturns_(
       tooltiptext_benchmarkReturn
         .attr(
           "x",
-          xScale(closestX) < dimensions.boundedWidth / 3
+          xScale(closestX) < dimensions.boundedWidth / 2
             ? xScale(closestX) + 50
             : xScale(closestX) - 125
         )
         .attr("y", yScale(yInvert) + 30)
         .style("opacity", 1)
         .text(`Cumulative benchmark return: ${benchmarkReturn}`);
+
+      tooltiptext_year
+        .attr(
+          "x",
+          xScale(closestX) < dimensions.boundedWidth / 2
+            ? xScale(closestX) + 50
+            : xScale(closestX) - 125
+        )
+        .attr("y", yScale(yInvert) - 15)
+        .style("opacity", 1)
+        .text(`Year: ${closestX}`);
+
+      tooltip_blackline
+        .attr(
+          "x1",
+          xScale(closestX) < dimensions.boundedWidth / 2
+            ? xScale(closestX) + 50
+            : xScale(closestX) - 125
+        )
+        .attr("y1", yScale(yInvert) - 10)
+        .attr(
+          "x2",
+          xScale(closestX) < dimensions.boundedWidth / 2
+            ? xScale(closestX) + 220
+            : xScale(closestX) + 50
+        )
+        .attr("y2", yScale(yInvert) - 10)
+        .style("opacity", 1);
 
       y_highlight
         .attr("x1", xScale(closestX) + "px")
@@ -229,74 +270,10 @@ function drawCumReturns_(
       tooltip.style("opacity", 0);
       tooltiptext_actualReturn.style("opacity", 0);
       tooltiptext_benchmarkReturn.style("opacity", 0);
+      tooltip_blackline.style("opacity", 0);
+      tooltiptext_year.style("opacity", 0);
       y_highlight.style("opacity", 0);
     });
-
-  //   wrapper
-  //     .on("pointerenter pointermove", pointermoved)
-  //     .on("pointerleave", pointerleft)
-  //     .on("touchstart", (event) => event.preventDefault());
-
-  //   const combinedReturn = actualReturnValue.concat(benchmarkReturnValue);
-  //   const combinedYear = yearValue.concat(yearValue);
-  //   const I_comb = d3.range(combinedReturn.length);
-
-  //   const xmRange = [
-  //     dimensions.margin.left,
-  //     dimensions.width - dimensions.margin.right,
-  //   ];
-  //   const ymRange = [
-  //     dimensions.height - dimensions.margin.bottom,
-  //     dimensions.margin.top,
-  //   ];
-
-  //   const xmScale = xType(xDomain, xmRange);
-  //   const ymScale = yType(yDomain, ymRange);
-
-  //   const title = (i) => `${combinedYear[i]}\n${yFormat(combinedReturn[i])}`;
-  //   function pointermoved(event) {
-  //     const [xm, ym] = d3.pointer(event);
-  //     const j = d3.least(I_comb, (i) =>
-  //       Math.hypot(xmScale(combinedYear[i]) - xm, ymScale(combinedReturn[i]) - ym)
-  //     );
-  //     tooltip.style("display", null);
-  //     tooltip.attr(
-  //       "transform",
-  //       `translate(${xScale(combinedYear[j])},${yScale(combinedReturn[j])})`
-  //     );
-  //     dot.style("display", null);
-  //     dot.attr(
-  //       "transform",
-  //       `translate(${xScale(combinedYear[j])},${yScale(combinedReturn[j])})`
-  //     );
-
-  //     const path = tooltip
-  //       .selectAll("path")
-  //       .data([,])
-  //       .join("path")
-  //       .attr("fill", "white")
-  //       .attr("stroke", "black");
-
-  //     const text = tooltip
-  //       .selectAll("text")
-  //       .data([,])
-  //       .join("text")
-  //       .call((text) =>
-  //         text
-  //           .selectAll("tspan")
-  //           .data(`${title(j)}`.split(/\n/))
-  //           .join("tspan")
-  //           .attr("x", 0)
-  //           .attr("y", (_, i) => `${i * 1.1}em`)
-  //           .attr("font-weight", (_, i) => (i ? null : "bold"))
-  //           .text((d) => d)
-  //       );
-  //   }
-
-  //   function pointerleft() {
-  //     tooltip.style("display", "none");
-  //     dot.style("display", "none");
-  //   }
 }
 
 export { drawCumReturns_ };

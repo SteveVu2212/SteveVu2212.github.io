@@ -12,10 +12,20 @@ function drawAvgExcessReturn_(
   const percentFormat = d3.format(".1%");
 
   let benchmarkReturnAccessor;
-  if (benchmark === "Optimal benchmark") {
+  if (benchmark === "Optimal portfolio") {
     benchmarkReturnAccessor = (d) => parseFloat(d.avg_opt_benchmark_excess);
-  } else {
-    benchmarkReturnAccessor = (d) => parseFloat(d.avg_custom_benchmark_excess);
+  } else if (benchmark == "Standard portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.avg_standard_pension_benchmark_excess);
+  } else if (benchmark == "Moderate portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.avg_moderate_benchmark_excess);
+  } else if (benchmark == "Aggressive portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.avg_aggressive_benchmark_excess);
+  } else if (benchmark == "Conservative portfolio") {
+    benchmarkReturnAccessor = (d) =>
+      parseFloat(d.avg_conservative_benchmark_excess);
   }
 
   const rScale = d3
