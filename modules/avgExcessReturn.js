@@ -99,8 +99,8 @@ function drawAvgExcessReturn_(
   simulation.on("tick", () => {
     bubble_avgExcessReturn
       .transition()
-      // .delay((d,i) => i*2)
-      .duration(100)
+      .delay((d,i) => i*2)
+      .duration(200)
       .attr("cx", (d) => d.x)
       .attr("cy", (d) => d.y);
   });
