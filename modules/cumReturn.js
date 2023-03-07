@@ -20,7 +20,7 @@ function drawCumReturns_(
   // );
 
   let benchmarkReturnAccessor;
-  if (benchmark === "Optimal portfolio") {
+  if (benchmark === "Empirical portfolio") {
     benchmarkReturnAccessor = (d) => parseFloat(d.cum_opt_benchmark_return);
   } else if (benchmark == "Standard portfolio") {
     benchmarkReturnAccessor = (d) =>
@@ -82,7 +82,7 @@ function drawCumReturns_(
     .y((i) => yScale(benchmarkReturnValue[i]));
 
   //   const color = "steelblue";
-  const strokeWidth = 1.5;
+  const strokeWidth = 3;
   const strokeLinejoin = "round";
   const strokeLinecap = "round";
 

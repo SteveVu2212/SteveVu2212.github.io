@@ -23,21 +23,30 @@
   <body>
     <div class="container">
       <div id="userSelection" class="dropdown">
-        <select
-          class="selectpicker"
-          id="planDropdown"
-          data-live-search="true"
-        ></select>
-        <select
-          class="selectpicker"
-          id="benchmarkDropdown"
-          data-live-search="true"
-        ></select>
-        <select
-          class="selectpicker"
-          id="periodDropdown"
-          data-live-search="true"
-        ></select>
+        <div class="plan-selector">
+          <h5>Select a plan</h5>
+          <select
+            class="selectpicker"
+            id="planDropdown"
+            data-live-search="true"
+          ></select>
+        </div>
+        <div class="benchmark-selector">
+          <h5>Select a benchmark</h5>
+          <select
+            class="selectpicker"
+            id="benchmarkDropdown"
+            data-live-search="true"
+          ></select>
+        </div>
+        <div class="period-selector">
+          <h5>Select a period</h5>
+          <select
+            class="selectpicker"
+            id="periodDropdown"
+            data-live-search="true"
+          ></select>
+        </div>
       </div>
 
       <div id="wrapper-avgReturn" class="wrapper-avgReturn">

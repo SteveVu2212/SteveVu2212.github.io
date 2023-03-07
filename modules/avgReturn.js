@@ -2,7 +2,7 @@ function drawAvgReturn_(data, dimensions, plan, benchmark, period) {
   const subDataset = data.filter((d) => d.plan_name === plan);
 
   let benchmarkReturnAccessor;
-  if (benchmark === "Optimal portfolio") {
+  if (benchmark === "Empirical portfolio") {
     benchmarkReturnAccessor = (d) => parseFloat(d.avg_opt_benchmark_return);
   } else if (benchmark == "Standard portfolio") {
     benchmarkReturnAccessor = (d) =>

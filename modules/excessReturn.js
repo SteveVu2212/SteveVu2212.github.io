@@ -12,7 +12,7 @@ function drawExcessReturn_(
   const z = (d) => d.plan_name;
 
   let y;
-  if (benchmark === "Optimal portfolio") {
+  if (benchmark === "Empirical portfolio") {
     y = (d) => parseFloat(d.cum_opt_benchmark_excess);
   } else if (benchmark == "Standard portfolio") {
     y = (d) => parseFloat(d.cum_standard_pension_benchmark_excess);
@@ -47,6 +47,8 @@ function drawExcessReturn_(
 
   // Draw canvas
 
+  const strokeWidth = 3;
+
   const dataNest = Array.from(
     d3.group(data, (d) => d.plan_name),
     ([key, value]) => ({ key, value })
@@ -70,7 +72,8 @@ function drawExcessReturn_(
     .attr("d", (d) => line(d.value))
     .attr("fill", "none")
     .attr("stroke", (d) => (d.key === plan ? "#f63" : "#2879cb"))
-    .attr("stroke-opacity", (d) => (d.key === plan ? 1 : 0.05));
+    .attr("stroke-opacity", (d) => (d.key === plan ? 1 : 0.05))
+    .attr("stroke-width", strokeWidth)
 
   const xTickValues = d3.range(d3.min(data, x), d3.max(data, x) + 1, 1);
 
@@ -132,7 +135,7 @@ function drawExcessReturn_(
         nodes[i].setAttribute("stroke-opacity", 1);
       } else {
         nodes[i].setAttribute("stroke", "#ddd");
-        nodes[i].setAttribute("stroke-opacity", 0.05);
+        nodes[i].setAttribute("stroke-opacity", 0.1);
       }
     });
     dot
@@ -150,7 +153,7 @@ function drawExcessReturn_(
         nodes[i].setAttribute("stroke-opacity", 1);
       } else {
         nodes[i].setAttribute("stroke", "#2879cb");
-        nodes[i].setAttribute("stroke-opacity", 0.05);
+        nodes[i].setAttribute("stroke-opacity", 0.1);
       }
     });
     dot.attr("display", "none");
@@ -166,7 +169,8 @@ function drawExcessReturn_(
     .attr("x2", xScale(xScale.domain()[1]))
     .attr("y2", yScale(0))
     .style("stroke", "black")
-    .style("stroke-opacity", 1);
+    .style("stroke-opacity", 1)
+    .style("stroke-width", strokeWidth)
 }
 
 export { drawExcessReturn_ };

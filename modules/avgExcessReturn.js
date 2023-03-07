@@ -12,7 +12,7 @@ function drawAvgExcessReturn_(
   const percentFormat = d3.format(".1%");
 
   let benchmarkReturnAccessor;
-  if (benchmark === "Optimal portfolio") {
+  if (benchmark === "Empirical portfolio") {
     benchmarkReturnAccessor = (d) => parseFloat(d.avg_opt_benchmark_excess);
   } else if (benchmark == "Standard portfolio") {
     benchmarkReturnAccessor = (d) =>
@@ -31,7 +31,7 @@ function drawAvgExcessReturn_(
   const rScale = d3
     .scaleSqrt()
     .domain(d3.extent(data, aalAccessor))
-    .range([0, 50]);
+    .range([0, 30]);
 
   const xScale = d3
     .scaleLinear()
@@ -64,7 +64,7 @@ function drawAvgExcessReturn_(
     .attr("id", (d) => "circle" + d.id)
     .attr("r", (d) => d.r)
     .style("fill", (d) => (d.planName === plan ? "#f63" : "#2879cb"))
-    .attr("fill-opacity", (d) => (d.planName === plan ? 1 : 0.1))
+    .attr("fill-opacity", (d) => (d.planName === plan ? 1 : 0.2))
     .on("mouseover", function (e, d) {
       tooltip.html(d.planName + "<br/>" + percentFormat(d.rate));
       return tooltip.style("visibility", "visible");
@@ -80,7 +80,7 @@ function drawAvgExcessReturn_(
 
   const simulation = d3
     .forceSimulation(nodes)
-    .force("charge", d3.forceManyBody().strength(5))
+    .force("charge", d3.forceManyBody().strength(1))
     .force(
       "x",
       d3.forceX((d) => d.x)
@@ -93,8 +93,8 @@ function drawAvgExcessReturn_(
         .strength(2)
         .radius((d) => d.r + dimensions.padding)
     );
-  // .alpha(.15)
-  // .alphaDecay(0)
+  // .alpha(0.01)
+  // .alphaDecay(0);
 
   simulation.on("tick", () => {
     bubble_avgExcessReturn
@@ -138,7 +138,7 @@ function drawAvgExcessReturn_(
     .attr("class", "ind")
     .attr("r", (d) => rScale(d))
     .attr("cx", 80)
-    .attr("cy", (d) => 130 - rScale(d))
+    .attr("cy", (d) => 90 - rScale(d))
     .style("fill", "none")
     .style("stroke", "#ccc");
 
@@ -148,10 +148,10 @@ function drawAvgExcessReturn_(
     .join("text")
     .attr("class", "leglabel")
     .attr("x", 80)
-    .attr("y", (d) => 130 - rScale(d) * 2)
+    .attr("y", (d) => 90 - rScale(d) * 2)
     .attr("dy", -4)
     .text((d) => d3.format(",")(d / 1000000) + "mn")
-    .style("font-size", ".7rem")
+    .style("font-size", ".6rem")
     .style("text-anchor", "middle");
 }
 

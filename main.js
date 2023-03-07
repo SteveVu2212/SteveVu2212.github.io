@@ -19,7 +19,7 @@ async function draw() {
   // console.log(df_cumReturn_10Yr);
 
   const defaultPlan = "Alabama ERS";
-  const defaultBenchmarkType = "Optimal portfolio";
+  const defaultBenchmarkType = "Empirical portfolio";
   const defaultPeriod = "10 years";
 
   let allPlanNames = new Array();
@@ -27,7 +27,7 @@ async function draw() {
 
   const periodSelection = ["10 years", "15 years", "20 years"];
   const benchmarkTypeSelection = [
-    "Optimal portfolio",
+    "Empirical portfolio",
     "Standard portfolio",
     "Moderate portfolio",
     "Aggressive portfolio",
@@ -56,18 +56,10 @@ async function draw() {
     dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
 
   // Users' selection - Add dropdowns
-  // const userSelection = d3.select("#userSelection")
-
-  // d3.select("#pensionPlans")
-  //     .selectAll("option")
-  //     .data(allPlanNames)
-  //     .join("option")
-  //     .text(d => d)
-  //     .attr("value", d => d)
 
   $(document).ready(function () {
     $("#planDropdown").selectpicker({
-      noneSelectedText: "Select a plan",
+      noneSelectedText: defaultPlan
     });
 
     d3.select("#planDropdown")
@@ -80,16 +72,10 @@ async function draw() {
     $("#planDropdown").selectpicker("refresh");
   });
 
-  // d3.select("#planDropdown")
-  //     .selectAll("option")
-  //     .data(allPlanNames)
-  //     .join("option")
-  //     .text(d => d)
-  //     .attr("value", d => d)
 
   $(document).ready(function () {
     $("#benchmarkDropdown").selectpicker({
-      noneSelectedText: "Select a benchmark",
+      noneSelectedText: defaultBenchmarkType,
     });
 
     d3.select("#benchmarkDropdown")
@@ -102,16 +88,10 @@ async function draw() {
     $("#benchmarkDropdown").selectpicker("refresh");
   });
 
-  //   d3.select("#pensionBenchmarks")
-  //     .selectAll("option")
-  //     .data(benchmarkTypeSelection)
-  //     .join("option")
-  //     .text((d) => d)
-  //     .attr("value", (d) => d);
 
   $(document).ready(function () {
     $("#periodDropdown").selectpicker({
-      noneSelectedText: "Select a period",
+      noneSelectedText: defaultPeriod,
     });
 
     d3.select("#periodDropdown")
@@ -124,12 +104,6 @@ async function draw() {
     $("#periodDropdown").selectpicker("refresh");
   });
 
-  //   d3.select("#pensionPeriods")
-  //     .selectAll("option")
-  //     .data(periodSelection)
-  //     .join("option")
-  //     .text((d) => d)
-  //     .attr("value", (d) => d);
 
   // Initial options
   let planSelected = defaultPlan;
@@ -177,14 +151,6 @@ async function draw() {
 
   bounds_cummulativeReturn.append("g").attr("class", "legend");
 
-  //   bounds_cummulativeReturn.append("text").attr("class", "title");
-
-  //   bounds_cummulativeReturn.append("g").attr("class", "tip-area")
-  //         .append('svg:rect')
-  //         .attr('width', dimensions.boundedWidth)
-  //         .attr('height', dimensions.boundedHeight)
-  //         .attr('pointer-events', 'all')
-  //         .style('opacity', 0.5)
 
   bounds_cummulativeReturn
     .append("line")
@@ -195,12 +161,9 @@ async function draw() {
     .attr("y2", dimensions.boundedHeight)
     .style("opacity", 0)
     .style("stroke", "#d3d3d3")
-    .style("stroke-width", "2px");
+    .style("stroke-width", "2px")
+    .style("font-family", "inherit")
 
-  //   const tooltip_cummulativeReturn = d3.select('body')
-  //     .append("div")
-  //     .attr("class", "tooltip")
-  //     .style("opacity", 0)
 
   const tooltip_cummulativeReturn = wrapper_cummulativeReturn
     .append("rect")
@@ -208,7 +171,6 @@ async function draw() {
     .attr("y", 100)
     .attr("width", 100)
     .attr("height", 50)
-    // .style("stroke", "red")
     .style("fill", "none")
     .style("opacity", 0);
 
@@ -239,12 +201,6 @@ async function draw() {
     .style("fill", "black")
     .style("opacity", 1);
 
-  //   const dot_cummulativeReturn = bounds_cummulativeReturn
-  //     .append("g")
-  //     .attr("class", "dot")
-  //     .style("display", "none");
-
-  //   dot_cummulativeReturn.append("circle").attr("r", 2.5);
 
   // Add legend
   const colorScale = d3
@@ -252,9 +208,6 @@ async function draw() {
     .domain(labels)
     .range(["#f63", "#2879CB"]);
 
-  //   const labelDots = bounds_cummulativeReturn
-  //     .append("g")
-  //     .attr("class", "labeldots");
 
   const legend_cummulativeReturn = bounds_cummulativeReturn.select(".legend");
 
@@ -319,14 +272,14 @@ async function draw() {
     .attr("class", "plan-name")
     .attr("text-anchor", "middle")
     .attr("y", -20)
-    .style("font-size", "10px");
+    .style("font-size", "10px")
 
   dot_excessReturn
     .append("text")
     .attr("class", "plan-excess-return")
     .attr("text-anchor", "middle")
     .attr("y", -5)
-    .style("font-size", "10px");
+    .style("font-size", "10px")
 
   // Draw the frame of the average excess return chart
 
@@ -393,7 +346,8 @@ async function draw() {
     .attr("x", 80)
     .attr("y", 10)
     .attr("text-anchor", "middle")
-    .text("Actuarial Accrued Liability");
+    .style("font-family", "inherit")
+    .text("Accrued Liability");
 
   const tooltip_avgExcessReturn = d3
     .select("#wrapper-avgExcessReturn")
@@ -405,7 +359,7 @@ async function draw() {
     .style("background-color", "#626D71")
     .style("border-radius", "6px")
     .style("text-align", "center")
-    .style("font-family", "monospace")
+    .style("font-family", "inherit")
     .style("width", "400px")
     .text("");
 
