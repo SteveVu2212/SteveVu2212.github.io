@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
 
 * {
   box-sizing: border-box;
@@ -65,4 +65,9 @@ h2 {
   font-size: 1rem;
   margin-bottom: -2%;
   text-align: center;
+  font-weight: bold;
+}
+
+.focus-line {
+  z-index: 100;
 }

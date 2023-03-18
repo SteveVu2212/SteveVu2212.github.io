@@ -270,7 +270,7 @@ async function draw() {
   dot_excessReturn
     .append("text")
     .attr("class", "plan-name")
-    .attr("text-anchor", "middle")
+    // .attr("text-anchor", "middle")
     .attr("y", -20)
     .style("font-size", "10px")
 
@@ -360,7 +360,7 @@ async function draw() {
     .style("border-radius", "6px")
     .style("text-align", "center")
     .style("font-family", "inherit")
-    .style("width", "400px")
+    .style("width", "300px")
     .text("");
 
   // Update charts with users' selection

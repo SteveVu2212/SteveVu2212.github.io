@@ -128,11 +128,15 @@ function drawCumReturns_(
     .select(".x-axis")
     .call(xAxis)
     .call((g) => g.selectAll(".domain").remove())
-    .style("color", "rgb(129, 129, 129)")
+    .attr("stroke-opacity", 0.5);
+
+  bound
+    .select(".x-axis")
+    .selectAll(".tick text")
     .style("font-size", "10px")
     .style("font-weight", 500)
-    .style("font-family", "'Open Sans', sans-serif")
-    .attr("stroke-opacity", 0.5);
+    .style("color", "rgb(129, 129, 129)")
+    .style("font-family", "'Open Sans', sans-serif");
 
   bound
     .select(".y-axis")
@@ -151,8 +155,8 @@ function drawCumReturns_(
     .selectAll(".tick text")
     .style("font-size", "10px")
     .style("font-weight", 500)
-    .attr("fill", "rgb(129, 129, 129)");
-  // .attr("transform", `translate(0, 0)`);
+    .style("fill", "rgb(129, 129, 129)")
+    .style("font-family", "'Open Sans', sans-serif");
 
   // Set up interaction
 

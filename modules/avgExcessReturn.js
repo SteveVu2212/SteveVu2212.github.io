@@ -99,8 +99,8 @@ function drawAvgExcessReturn_(
   simulation.on("tick", () => {
     bubble_avgExcessReturn
       .transition()
-      .delay((d,i) => i*2)
-      .duration(200)
+      .delay((d, i) => i * 2)
+      .duration(100)
       .attr("cx", (d) => d.x)
       .attr("cy", (d) => d.y);
   });
@@ -118,6 +118,15 @@ function drawAvgExcessReturn_(
     .style("font-size", "10px")
     .style("font-weight", 500)
     .attr("stroke-opacity", 0.5);
+
+  bound
+    .select(".x-axis")
+    .selectAll(".tick text")
+    .style("font-size", "10px")
+    .style("font-weight", 500)
+    .style("color", "rgb(129, 129, 129)")
+    .style("font-family", "'Open Sans', sans-serif");
+
 
   const zeroLine = bound
     .select(".zeroLine")

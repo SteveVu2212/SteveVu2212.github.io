@@ -68,12 +68,15 @@ function drawExcessReturn_(
     .data(dataNest)
     .join("path")
     .transition(t)
-    .attr("class", (d) => `excessReturn ${d.key}`)
+    .attr(
+      "class",
+      (d) => `excessReturn ${d.key} ${d.key === plan ? "focus-line" : ""}`
+    )
     .attr("d", (d) => line(d.value))
     .attr("fill", "none")
-    .attr("stroke", (d) => (d.key === plan ? "#f63" : "#2879cb"))
-    .attr("stroke-opacity", (d) => (d.key === plan ? 1 : 0.05))
-    .attr("stroke-width", strokeWidth)
+    .attr("stroke", (d) => (d.key === plan ? "#f63" : "#ddd"))
+    .attr("stroke-opacity", (d) => (d.key === plan ? 1 : 0.1))
+    .attr("stroke-width", (d) => (d.key == plan ? strokeWidth : 1));
 
   const xTickValues = d3.range(d3.min(data, x), d3.max(data, x) + 1, 1);
 
@@ -94,6 +97,14 @@ function drawExcessReturn_(
     .style("font-weight", 500)
     .attr("stroke-opacity", 0.5);
 
+  bound
+    .select(".x-axis")
+    .selectAll(".tick text")
+    .style("font-size", "10px")
+    .style("font-weight", 500)
+    .style("color", "rgb(129, 129, 129)")
+    .style("font-family", "'Open Sans', sans-serif");
+
   const yAxis = d3
     .axisLeft(yScale)
     .ticks(6)
@@ -107,6 +118,14 @@ function drawExcessReturn_(
     .style("font-size", "10px")
     .style("font-weight", 500)
     .attr("stroke-opacity", 0.5);
+
+  bound
+    .select(".y-axis")
+    .selectAll(".tick text")
+    .style("font-size", "10px")
+    .style("font-weight", 500)
+    .style("fill", "rgb(129, 129, 129)")
+    .style("font-family", "'Open Sans', sans-serif");
 
   const xmRange = [
     dimensions.margin.left,
@@ -130,6 +149,7 @@ function drawExcessReturn_(
       if (Z[j] === d.key) {
         nodes[i].setAttribute("stroke", "#2879cb");
         nodes[i].setAttribute("stroke-opacity", 1);
+        nodes[i].setAttribute("stroke-width", strokeWidth);
       } else if (d.key === plan) {
         nodes[i].setAttribute("stroke", "#f63");
         nodes[i].setAttribute("stroke-opacity", 1);
@@ -140,10 +160,24 @@ function drawExcessReturn_(
     });
     dot
       .attr("transform", `translate(${xScale(X[j])}, ${yScale(Y[j])})`)
-      .attr("display", null);
+      .attr("display", null)
 
-    dot.select(".plan-name").text(Z[j]);
-    dot.select(".plan-excess-return").text(`${yFormat(Y[j])}`);
+    dot
+      .select(".plan-name")
+      .text(Z[j])
+      .attr("text-anchor", xScale(X[j]) > 3*dimensions.width/4 ? "end" : "middle")
+      .style("font-size", "10px")
+      .style("font-weight", 500)
+      .style("fill", "black")
+      .style("font-family", "'Open Sans', sans-serif");
+
+    dot
+      .select(".plan-excess-return")
+      .text(`${yFormat(Y[j])}`)
+      .style("font-size", "10px")
+      .style("font-weight", 500)
+      .style("fill", "black")
+      .style("font-family", "'Open Sans', sans-serif");
   };
 
   const hideTooltip = (e, datum) => {
@@ -152,7 +186,7 @@ function drawExcessReturn_(
         nodes[i].setAttribute("stroke", "#f63");
         nodes[i].setAttribute("stroke-opacity", 1);
       } else {
-        nodes[i].setAttribute("stroke", "#2879cb");
+        nodes[i].setAttribute("stroke", "#ddd");
         nodes[i].setAttribute("stroke-opacity", 0.1);
       }
     });
@@ -170,7 +204,7 @@ function drawExcessReturn_(
     .attr("y2", yScale(0))
     .style("stroke", "black")
     .style("stroke-opacity", 1)
-    .style("stroke-width", strokeWidth)
+    .style("stroke-width", strokeWidth);
 }
 
 export { drawExcessReturn_ };
